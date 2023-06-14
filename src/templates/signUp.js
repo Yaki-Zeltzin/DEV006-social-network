@@ -1,3 +1,6 @@
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth } from "../lib/config/firebaseConfig.js"
+
 function signUp(navigateTo) {
   const signUpSection = document.createElement('section');
   const header = document.createElement('div');
@@ -55,9 +58,34 @@ function signUp(navigateTo) {
   signUpForm.append(nameInput, emailInput, passwordInput, btnSignUp, logInInvite, o, btnGoogle);
   logInInvite.append(btnLogIn);
 
+  signUpForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = signUpForm['user_name'].value;
+    const email = signUpForm['email'].value;
+    const password = signUpForm['password'].value;
+
+    console.log(name, email, password);
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+      // Signed in
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        console.log(errorCode);
+        const errorMessage = error.message;
+        console.log(errorMessage);
+      });
+    signUpForm.reset();
+  });
+
   btnLogIn.addEventListener('click', () => {
     navigateTo('/login');
   });
+
 
   return signUpSection;
 }

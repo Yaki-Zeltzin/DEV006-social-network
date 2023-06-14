@@ -1,16 +1,8 @@
-//import './lib/config/firebase.js';
-
-// myFunction();
-// import { router } from './router/index.routes.js';
-
-// router(window.location.hash);
-// window.addEventListener('hashchange', () => {
-//   router(window.location.hash);
-// });
+import './lib/config/firebaseConfig.js';
 
 import home from './templates/home';
 import signIn from './templates/signIn';
-import signUp from './templates/signUp';
+import signUp from './templates/signUp.js';
 import page404 from './templates/page404';
 
 const routes = [
