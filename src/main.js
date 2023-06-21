@@ -3,12 +3,14 @@ import './lib/config/firebaseConfig.js';
 import home from './templates/home';
 import signIn from './templates/signIn';
 import signUp from './templates/signUp.js';
+import post from './templates/post.js';
 import page404 from './templates/page404';
 
 const routes = [
   { path: '/', component: home },
   { path: '/login', component: signIn },
   { path: '/signup', component: signUp },
+  { path: '/posts', component: post },
   { path: '/error', component: page404 },
 ];
 

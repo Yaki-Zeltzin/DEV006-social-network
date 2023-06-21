@@ -39,6 +39,7 @@ function home(navigateTo) {
   });
   btnSigUp.addEventListener('click', () => {
     navigateTo('/signup');
+    window.body.classList.add('signuPage');
   });
   return section;
 }

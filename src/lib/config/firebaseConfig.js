@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 // Your web app's Firebase configuration
 import { getAuth } from 'firebase/auth';
+import { getFirestore, collection } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC_VhqxOj-X6Tap-OaIizAg1FBKz3rv-gM',
@@ -14,3 +15,10 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+
+export const db = getFirestore(app);
+export const colRef = collection(db, 'posts');
+
+export const saveTask = (description) => {
+  console.log(description);
+}

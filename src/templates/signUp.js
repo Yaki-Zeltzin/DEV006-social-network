@@ -1,7 +1,8 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { auth } from "../lib/config/firebaseConfig.js"
+import { GoogleAuthProvider, createUserWithEmailAndPassword , signInWithPopup} from 'firebase/auth';
+import { auth } from "../lib/config/firebaseConfig.js";
 
 function signUp(navigateTo) {
+  const body = document.getElementById('body');
   const signUpSection = document.createElement('section');
   const header = document.createElement('div');
   const title = document.createElement('h2');
@@ -81,6 +82,31 @@ function signUp(navigateTo) {
       });
     signUpForm.reset();
   });
+
+  btnGoogle.addEventListener('click', () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    // IdP data available using getAdditionalUserInfo(result)
+    navigateTo('/posts');
+    body.background = 'white';
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+    
+  })
 
   btnLogIn.addEventListener('click', () => {
     navigateTo('/login');
