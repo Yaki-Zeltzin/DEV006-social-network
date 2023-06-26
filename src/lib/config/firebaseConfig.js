@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 // Your web app's Firebase configuration
 import { getAuth } from 'firebase/auth';
-import { getFirestore, collection } from 'firebase/firestore';
+import { addDoc, collection, getDocs, getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC_VhqxOj-X6Tap-OaIizAg1FBKz3rv-gM',
@@ -16,9 +16,9 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
-export const db = getFirestore(app);
-export const colRef = collection(db, 'posts');
-
+export const db = getFirestore();
 export const saveTask = (description) => {
-  console.log(description);
-}
+  addDoc(collection(db, 'posts'), { description });
+};
+
+export const getTask = () => getDocs(collection(db, 'posts'));

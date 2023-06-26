@@ -1,4 +1,4 @@
-import { saveTask } from '../lib/config/firebaseConfig.js';
+import { saveTask, getTask } from '../lib/config/firebaseConfig';
 
 function post(navigateTo) {
   const body = document.getElementById('body');
@@ -29,19 +29,20 @@ function post(navigateTo) {
   const movies = document.createElement('p');
   const music = document.createElement('p');
   const books = document.createElement('p');
-  const postPublished = document.createElement('section');
-  const headerPublished = document.createElement('div');
-  const iconsecret3 = document.createElement('i');
-  const userPublished = document.createElement('h2');
-  const iconelipsis = document.createElement('i');
-  const mainPost = document.createElement('div');
-  const reactionCount = document.createElement('div');
-  const reactions = document.createElement('div');
-  const iconheart = document.createElement('i');
-  const iconcoment = document.createElement('i');
-  const createComent = document.createElement('div');
-  const inputCreateComent = document.createElement('input');
-  const iconplay = document.createElement('i');
+  const containerPosts = document.createElement('section');
+//   let postPublished = document.createElement('article');
+//   const headerPublished = document.createElement('div');
+//   const iconsecret3 = document.createElement('i');
+//   const userPublished = document.createElement('h2');
+//   const iconelipsis = document.createElement('i');
+//   let mainPost = document.createElement('div');
+//   const reactionCount = document.createElement('div');
+//   const reactions = document.createElement('div');
+//   const iconheart = document.createElement('i');
+//   const iconcoment = document.createElement('i');
+//   const createComent = document.createElement('div');
+//   const inputCreateComent = document.createElement('input');
+//   const iconplay = document.createElement('i');
 
   pagePost.classList.add('page_post');
   postHeader.classList.add('post_header');
@@ -60,17 +61,18 @@ function post(navigateTo) {
   postModal.classList.add('post_modal');
   btnModal.classList.add('btn_post_modal');
   tematicSection.classList.add('section_tematic');
-  postPublished.classList.add('post_published');
-  headerPublished.classList.add('header_published');
-  iconsecret3.className = 'fa fa-user-secret';
-  iconelipsis.className = 'fas fa-ellipsis-h';
-  mainPost.classList.add('main_post');
-  reactionCount.classList.add('reaction_count');
-  reactions.classList.add('reactions');
-  iconheart.className = 'fa fa-heart';
-  iconcoment.className = 'fa fa-comment-dots';
-  createComent.classList.add('create_comment');
-  iconplay.className = 'fas fa-play';
+  containerPosts.classList.add('containerPosts');
+//   postPublished.classList.add('post_published');
+//   headerPublished.classList.add('header_published');
+//   iconsecret3.className = 'fa fa-user-secret';
+//   iconelipsis.className = 'fas fa-ellipsis-h';
+//   mainPost.classList.add('main_post');
+//   reactionCount.classList.add('reaction_count');
+//   reactions.classList.add('reactions');
+//   iconheart.className = 'fa fa-heart';
+//   iconcoment.className = 'fa fa-comment-dots';
+//   createComent.classList.add('create_comment');
+//   iconplay.className = 'fas fa-play';
 
   imgHeader.setAttribute('src', 'images/logoOne.png');
   imgHeader.setAttribute('alt', 'Logo_whatUp');
@@ -78,10 +80,10 @@ function post(navigateTo) {
   inputModal.setAttribute('placeholder', 'Share your thoughts?');
   inputModal.setAttribute('id', 'task-description');
   formPostModal.setAttribute('id', 'task-form');
-  inputCreateComent.setAttribute('type', 'text');
-  inputCreateComent.setAttribute('placeholder', 'Write a comment');
-  inputCreateComent.setAttribute('id', 'task-description');
-  btnModal.setAttribute('id', 'btn-task-save');
+//   inputCreateComent.setAttribute('type', 'text');
+//   inputCreateComent.setAttribute('placeholder', 'Write a comment');
+//   inputCreateComent.setAttribute('id', 'task-description');
+//   btnModal.setAttribute('id', 'btn-task-save');
 
   openPostModal.textContent = 'Share your thoughts';
   titleModal.textContent = 'Create post';
@@ -92,12 +94,12 @@ function post(navigateTo) {
   movies.textContent = 'Movies';
   music.textContent = 'Music';
   books.textContent = 'Books';
-  userPublished.textContent = 'Zeltzin Rom';
-  reactionCount.textContent = '1 like';
-  iconheart.textContent = ' Me gusta';
-  iconcoment.textContent = ' Comentar';
+//   userPublished.textContent = 'Zeltzin Rom';
+//   reactionCount.textContent = '1 like';
+//   iconheart.textContent = ' Me gusta';
+//   iconcoment.textContent = ' Comentar';
 
-  pagePost.append(postHeader, sectionPost, createPostModal, tematicSection, postPublished);
+  pagePost.append(postHeader, sectionPost, createPostModal, tematicSection, containerPosts);
   postHeader.append(imgHeader, iconsHeader);
   iconsHeader.append(iconplus, iconsearch, iconcomment);
   sectionPost.append(iconsecret, openPostModal);
@@ -107,10 +109,11 @@ function post(navigateTo) {
   infoModal.append(iconsecret2, userModal);
   postModal.append(inputModal, btnModal);
   tematicSection.append(sport, policy, movies, music, books);
-  postPublished.append(headerPublished, mainPost, reactionCount, reactions, createComent);
-  headerPublished.append(iconsecret3, userPublished, iconelipsis);
-  reactions.append(iconheart, iconcoment);
-  createComent.append(inputCreateComent, iconplay);
+//   containerPosts.append(postPublished);
+//   postPublished.append(headerPublished, mainPost, reactionCount, reactions, createComent);
+//   headerPublished.append(iconsecret3, userPublished, iconelipsis);
+//   reactions.append(iconheart, iconcoment);
+//   createComent.append(inputCreateComent, iconplay);
 
   openPostModal.addEventListener('click', () => {
     createPostModal.style.display = 'flex';
@@ -125,8 +128,69 @@ function post(navigateTo) {
     e.preventDefault();
     const description = formPostModal['task-description'];
     saveTask(description.value);
+
+    formPostModal.reset();
   });
 
+  window.addEventListener('DOMContentLoaded', async () => {
+    const querySnapshot = await getTask();
+
+    querySnapshot.forEach((doc) => {
+      const posts = doc.data();
+      //let listPosts = document.createElement('p');
+      //listPosts.classList.add('post_published');
+      //listPosts.textContent = posts.description;
+      //pagePost.append(listPosts)
+
+      const postPublished = document.createElement('article');
+      const headerPublished = document.createElement('div');
+      const iconsecret3 = document.createElement('i');
+      const userPublished = document.createElement('h2');
+      const iconelipsis = document.createElement('i');
+      const mainPost = document.createElement('div');
+      const reactionCount = document.createElement('div');
+      const reactions = document.createElement('div');
+      const iconheart = document.createElement('i');
+      const iconcoment = document.createElement('i');
+      const createComent = document.createElement('div');
+      const inputCreateComent = document.createElement('input');
+      const iconplay = document.createElement('i');
+
+
+      postPublished.classList.add('post_published');
+  headerPublished.classList.add('header_published');
+  iconsecret3.className = 'fa fa-user-secret';
+  iconelipsis.className = 'fas fa-ellipsis-h';
+  mainPost.classList.add('main_post');
+  reactionCount.classList.add('reaction_count');
+  reactions.classList.add('reactions');
+  iconheart.className = 'fa fa-heart';
+  iconcoment.className = 'fa fa-comment-dots';
+  createComent.classList.add('create_comment');
+  iconplay.className = 'fas fa-play';
+
+
+  inputCreateComent.setAttribute('type', 'text');
+  inputCreateComent.setAttribute('placeholder', 'Write a comment');
+  inputCreateComent.setAttribute('id', 'task-description');
+  btnModal.setAttribute('id', 'btn-task-save');
+
+
+  userPublished.textContent = 'Zeltzin Rom';
+  reactionCount.textContent = '1 like';
+  iconheart.textContent = ' Me gusta';
+  iconcoment.textContent = ' Comentar';
+mainPost.textContent = posts.description;
+
+      postPublished.append(headerPublished, mainPost, reactionCount, reactions, createComent);
+      headerPublished.append(iconsecret3, userPublished, iconelipsis);
+      reactions.append(iconheart, iconcoment);
+      createComent.append(inputCreateComent, iconplay);
+      containerPosts.append(postPublished);
+    });
+    pagePost.append(containerPosts);
+  });
+  
   return pagePost;
 }
 
