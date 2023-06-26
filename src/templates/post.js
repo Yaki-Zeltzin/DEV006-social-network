@@ -1,4 +1,4 @@
-import { saveTask, getTask } from '../lib/config/firebaseConfig';
+import { saveTask, getTask, onGetPost } from '../lib/config/firebaseConfig';
 
 function post(navigateTo) {
   const body = document.getElementById('body');
@@ -133,7 +133,10 @@ function post(navigateTo) {
   });
 
   window.addEventListener('DOMContentLoaded', async () => {
-    const querySnapshot = await getTask();
+   
+    onGetPost((querySnapshot) => {
+
+    
 
     querySnapshot.forEach((doc) => {
       const posts = doc.data();
@@ -190,6 +193,7 @@ mainPost.textContent = posts.description;
     });
     pagePost.append(containerPosts);
   });
+});
   
   return pagePost;
 }
