@@ -1,4 +1,4 @@
-import { saveTask, onGetPost } from '../lib/config/firebaseConfig';
+import { saveTask, onGetPost, deletePost } from '../lib/config/firebaseConfig';
 
 function post(navigateTo) {
   const body = document.getElementById('body');
@@ -142,7 +142,6 @@ function post(navigateTo) {
         createComent.classList.add('create_comment');
         iconplay.className = 'fas fa-play';
 
-
         inputCreateComent.setAttribute('type', 'text');
         inputCreateComent.setAttribute('placeholder', 'Write a comment');
         inputCreateComent.setAttribute('id', 'task-description');
@@ -186,8 +185,8 @@ function post(navigateTo) {
 
         const btnDelete = document.querySelectorAll('.modalYes');
         btnDelete.forEach((btn) => {
-          btn.addEventListener('click', (e) => {
-            console.log(e.target.dataset.id);
+          btn.addEventListener('click', ({ target: { dataset } }) => {
+            deletePost(dataset.id);
           });
         });
         // modalYes.addEventListener('click', () => {
@@ -211,8 +210,6 @@ function post(navigateTo) {
       pagePost.append(containerPosts);
     });
   });
-
-
 
   return pagePost;
 }

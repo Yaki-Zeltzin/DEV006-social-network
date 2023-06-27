@@ -1,7 +1,15 @@
 import { initializeApp } from 'firebase/app';
 // Your web app's Firebase configuration
 import { getAuth } from 'firebase/auth';
-import { addDoc, collection, getDocs, getFirestore, onSnapshot } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  getDocs,
+  getFirestore,
+  deleteDoc,
+  onSnapshot,
+  doc,
+} from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC_VhqxOj-X6Tap-OaIizAg1FBKz3rv-gM',
@@ -23,5 +31,6 @@ export const saveTask = (description) => {
 
 export const getTask = () => getDocs(collection(db, 'posts'));
 
-export const onGetPost = (callback) => onSnapshot(collection(db, 'posts'), callback)
+export const onGetPost = (callback) => onSnapshot(collection(db, 'posts'), callback);
 
+export const deletePost = (id) => deleteDoc(doc(db, 'posts', id));
