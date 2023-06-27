@@ -24,3 +24,4 @@ export const saveTask = (description) => {
 export const getTask = () => getDocs(collection(db, 'posts'));
 
 export const onGetPost = (callback) => onSnapshot(collection(db, 'posts'), callback)
+
