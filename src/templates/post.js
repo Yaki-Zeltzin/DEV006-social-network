@@ -1,6 +1,7 @@
-import { saveTask, onGetPost, deletePost } from '../lib/config/firebaseConfig';
+import { saveTask, onGetPost, deletePost, getPost } from '../lib/config/firebaseConfig';
 
 function post(navigateTo) {
+  const edtiStatus = false;
   const body = document.getElementById('body');
   const pagePost = document.createElement('main');
   const postHeader = document.createElement('header');
@@ -128,6 +129,7 @@ function post(navigateTo) {
         closeModal.className = 'fa fa-times';
         closeModal2.className = 'fa fa-times';
         modalYes.classList.add('modalYes');
+        modalEdit.classList.add('modalEdit');
         postPublished.classList.add('post_published');
         headerPublished.classList.add('header_published');
         iconsecret3.className = 'fa fa-user-secret';
@@ -147,6 +149,7 @@ function post(navigateTo) {
         inputCreateComent.setAttribute('id', 'task-description');
         btnModal.setAttribute('id', 'btn-task-save');
         modalYes.setAttribute('data-id', doc.id);
+        modalEdit.setAttribute('data-id', doc.id);
 
         userPublished.textContent = 'Zeltzin Rom';
         reactionCount.textContent = '1 like';
@@ -187,18 +190,26 @@ function post(navigateTo) {
         btnDelete.forEach((btn) => {
           btn.addEventListener('click', ({ target: { dataset } }) => {
             deletePost(dataset.id);
+            deleteM.style.display = 'none';
+            iconelipsis.style.display = 'flex';
           });
         });
-        // modalYes.addEventListener('click', () => {
-        //   console.log('se ha borrado tu publicacvion');
-        //   console.log(btnDelete);
 
-        // });
         closeModal2.addEventListener('click', () => {
           deleteM.style.display = 'none';
           iconelipsis.style.display = 'flex';
         });
 
+        const btnEdit = document.querySelectorAll('.modalEdit');
+        btnEdit.forEach((btn) => {
+          btn.addEventListener('click', async (e) => {
+            console.log(e.target.dataset.id);
+            const docu = await getPost(e.target.dataset.id);
+            const postDocu = docu.data();
+
+            formPostModal['task-description'].value = postDocu.description;
+          });
+        });
         modalEdit.addEventListener('click', () => {
           modalOptions.style.display = 'none';
           iconelipsis.style.display = 'flex';
@@ -207,8 +218,8 @@ function post(navigateTo) {
           createPostModal.style.display = 'flex';
         });
       });
-      pagePost.append(containerPosts);
     });
+    pagePost.append(containerPosts);
   });
 
   return pagePost;

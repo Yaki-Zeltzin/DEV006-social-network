@@ -21,11 +21,11 @@ function navigateTo(hash) {
   const route = routes.find((routeFound) => routeFound.path === hash);
 
   if (route && route.component) {
-  //agregar un registro al historial de navegacion
+  // agregar un registro al historial de navegacion
     window.history.pushState(
-      {}, //estado
-      route.path, //titulo
-      window.location.origin + route.path, //url
+      {}, // estado
+      route.path, // titulo
+      window.location.origin + route.path, // url
     );
 
     if (root.firstChild) {
