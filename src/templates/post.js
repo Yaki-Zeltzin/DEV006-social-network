@@ -1,9 +1,16 @@
-import { saveTask, onGetPost, deletePost, getPost } from '../lib/config/firebaseConfig';
+import {
+  saveTask,
+  onGetPost,
+  deletePost,
+  getPost,
+  updatePost,
+} from '../lib/config/firebaseConfig';
 
 function post(navigateTo) {
-  const edtiStatus = false;
-  const body = document.getElementById('body');
+  let edtiStatus = false;
+  let id = '';
   const pagePost = document.createElement('main');
+  const body = document.getElementById('body');
   const postHeader = document.createElement('header');
   const imgHeader = document.createElement('img');
   const iconsHeader = document.createElement('div');
@@ -59,6 +66,7 @@ function post(navigateTo) {
   inputModal.setAttribute('placeholder', 'Share your thoughts?');
   inputModal.setAttribute('id', 'task-description');
   formPostModal.setAttribute('id', 'task-form');
+  btnModal.setAttribute('id', 'btn_save_task');
 
   openPostModal.textContent = 'Share your thoughts';
   titleModal.textContent = 'Create post';
@@ -94,8 +102,18 @@ function post(navigateTo) {
   formPostModal.addEventListener('submit', (e) => {
     e.preventDefault();
     const description = formPostModal['task-description'];
-    saveTask(description.value);
 
+    if (!edtiStatus) {
+      saveTask(description.value);
+    } else {
+      updatePost(id, {
+        description: description.value,
+      });
+
+      edtiStatus = false;
+    }
+
+    divcreatePostModal.style.display = 'none';
     formPostModal.reset();
   });
 
@@ -203,11 +221,15 @@ function post(navigateTo) {
         const btnEdit = document.querySelectorAll('.modalEdit');
         btnEdit.forEach((btn) => {
           btn.addEventListener('click', async (e) => {
-            console.log(e.target.dataset.id);
+            // console.log(e.target.dataset.id);
             const docu = await getPost(e.target.dataset.id);
             const postDocu = docu.data();
 
             formPostModal['task-description'].value = postDocu.description;
+
+            edtiStatus = true;
+            id = e.target.dataset.id;
+            btnModal.textContent = 'Update';
           });
         });
         modalEdit.addEventListener('click', () => {

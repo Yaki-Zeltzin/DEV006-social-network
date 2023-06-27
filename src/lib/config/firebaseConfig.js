@@ -10,6 +10,7 @@ import {
   onSnapshot,
   doc,
   getDoc,
+  updateDoc,
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -37,3 +38,5 @@ export const onGetPost = (callback) => onSnapshot(collection(db, 'posts'), callb
 export const deletePost = (id) => deleteDoc(doc(db, 'posts', id));
 
 export const getPost = (id) => getDoc(doc(db, 'posts', id));
+
+export const updatePost = (id, newFields) => updateDoc(doc(db, 'posts', id), newFields);
